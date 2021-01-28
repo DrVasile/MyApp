@@ -32,4 +32,4 @@
 - Create a project: `cordova create App_Name`;
 - Change directory to the app: `cd App_Name`;
 - Add platform: `cordova platform add some_platform`;
-- Run the app: `cordova run some_platform`
+- Run the app: `cordova run some_platform`;
