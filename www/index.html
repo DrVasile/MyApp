@@ -2,24 +2,34 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta http-equiv="Content-Security-Policy" 
+              content="connect-src 'self';
+                       default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' ws:; 
+                       font-src 'self';
+                       img-src 'self' data: content:;
+                       media-src 'self';
+                       style-src 'self' 'unsafe-inline';
+                       script-src 'self' 'unsafe-inline';">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="css/index.css">
-        <title>Hello World</title>
+        <title>Geolocation Cordova App</title>
     </head>
     <body>
         <div class="app">
-            <h1>Geolocation App</h1>
+            <h1>=== Header === </h1>
             <div id="deviceready" class="blink">
                 <p class="event listening">Connecting to Device</p>
                 <p class="event received">Device is Ready</p>
+                <button id="vibrate-button">Vibrate Button</button>
+                <button id="location-button">Location Button</button>
+                <button id="camera-button">Camera Button</button>
+                <p id="latitude">Latitude: </p>
+                <p id="camera-message"></p>
+                <img id="photo" src="img/logo.png" alt="Photo.">
             </div>
-            <button id="vibrate-button">Vibrate Button</button>
-            <button id="location-button">Location Button</button>
-            <p id="latitude">First Latitude: </p>
         </div>
         <script src="cordova.js"></script>
         <script src="js/index.js"></script>

@@ -19,6 +19,7 @@
 
 ## Windows Environment variables
 - Control Panel &#8594; System and Security &#8594; System &#8594; Advanced System Settings &#8594; Environment Variables;
+- ANDROID_HOME: `C:\Users\vasil\AppData\Local\Android\Sdk` (Deprecated, so it can be skipped);
 - ANDROID_SDK_ROOT: `C:\Users\Username\AppData\Local\Android\Sdk`;
 - JAVA_HOME: `C:\Program Files\Java\jdkX` (where X is the version);
 - Path:
@@ -26,7 +27,10 @@
   - `C:\Program Files\nodejs\` (for node.js/npm);
   - `C:\Program Files\gradle-Y\bin` (for gradle where Y is the version);
   - `%ANDROID_SDK_ROOT%\build-tools` (for android sdk build tools);
+  - `%ANDROID_SDK_ROOT%\emulator` (for the emulators);
   - `%ANDROID_SDK_ROOT%\platform-tools` (for android sdk platform tools);
+  - `%ANDROID_SDK_ROOT%\tools`;
+  - `%ANDROID_SDK_ROOT%\tools\bin`;
 
 ## Commands
 - Create a project: `cordova create App_Name`;
