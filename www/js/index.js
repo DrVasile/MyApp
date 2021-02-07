@@ -1,89 +1,50 @@
 var app = {
+    map: null,
+    currentMarker: null,
+    defaultPosition: {
+        coordinates: {
+            latitude: 45.55,
+            longitude: -45.55
+        }
+    },
     initializeApp: function() {
         document.addEventListener('deviceready', app.onDeviceReady);
-        document.addEventListener('pause', app.onPause);
-        document.addEventListener('resume', app.onResume);
-
-        let sessionData = localStorage.getItem('SessionData');
-        let timestamp = new Date(JSON.parse(sessionData).timestamp);
-        console.log('--- initializeApp : ' + timestamp);
-        
-        if (sessionData) {
-            console.log('The app was paused.');
-        } else {
-            console.log('The app was just opened');
-        }
-    }, 
+    },
     onDeviceReady: function() {
-        console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
+        console.log('Running cordova - ' + cordova.platformId + '|' + cordova.version);
+
         document.getElementById('deviceready').classList.add('ready');
-        document.getElementById('vibrate-button').addEventListener('click', app.vibrate);
-        document.getElementById('location-button').addEventListener('click', app.getLocation);
-        document.getElementById('camera-button').addEventListener('click', app.takePicture);
-    },
-    onPause: function(event) {
-        let sessionObject = {
-            'timestamp': Date.now()
-        };
+        //document.getElementById('location-button').addEventListener('click', app.getLocation);
 
-        localStorage.setItem('SessionData', JSON.stringify(sessionObject));
-    },
-    onResume: function() {
-        let sessionData = localStorage.getItem('SessionData');
-
-        if (sessionData) {
-            console.log('The app was paused.');
-        } else {
-            console.log('The app was just opened');
-        }
-    },
-    vibrate: function() {
-        console.log('Vibrating!');
-        navigator.vibrate(3000);
+        app.getLocation();
     },
     getLocation: function() {
         navigator.geolocation.getCurrentPosition(
-            /*
-             position.coords {
-                 latitude,
-                 longitude,
-                 altitude,
-                 accuracy,
-                 altitudeAccuracy,
-                 heading,
-                 speed,
-                 timestamp
-             } 
-             */
             function(position) {
-                document.getElementById('latitude').innerText = "Latitude: " + position.coords.latitude;
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                //document.getElementById('latitude').innerText = "Latitude: " + lat;
+                //document.getElementById('longitude').innerText = "Longitude: " + lon;
+
+                var coordinates = new google.maps.LatLng(lat, lon);
+                var mapOptions = {
+                    zoom: 8,
+                    center: coordinates
+                }
+
+                app.map = new google.maps.Map(
+                    document.getElementById('map-area'),
+                    mapOptions
+                );
+
+                app.currentMarker = new google.maps.Marker({
+                    position: coordinates,
+                    map: app.map
+                });
             },
             function(error) {
-                alert("Failure!");
+                alert('Failure code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
             }
-        );
-    },
-    takePicture: function() {
-        var options = {
-            quality: 80,
-            sourceType: Camera.PictureSourceType.CAMERA,
-            destinationType: Camera.DestinationType.FILE_URI,
-            mediaType: Camera.MediaType.PICTURE,
-            encodingType: Camera.EncodingType.JPEG,
-            cameraDirection: Camera.Direction.BACK,
-            targetWidth: 300,
-            targetHeight: 400
-        };
-
-        navigator.camera.getPicture(
-            function(imageData) {
-                document.getElementById('camera-message').textContent = imageData;
-                document.getElementById('photo').src = imageData;
-            },
-            function(message) {
-                document.getElementById('camera-message').textContent = message;
-            }, 
-            options
         );
     }
 }
